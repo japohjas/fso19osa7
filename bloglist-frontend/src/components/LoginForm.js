@@ -4,6 +4,7 @@ import  { useField } from '../hooks/index'
 import { connect } from 'react-redux'
 import { loginUser } from '../reducers/userReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { Form, Button } from 'semantic-ui-react'
 
 const LoginForm = (props) => {
   const username = useField('text')
@@ -17,19 +18,17 @@ const LoginForm = (props) => {
   }
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <div>
-          username:
-          <input {...username} reset={null} />
-        </div>
-        <div>
-          password:
-          <input {...password} reset={null} />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    </div>
+    <Form onSubmit={handleLogin}>
+      <Form.Field>
+        <label>username </label>
+        <input {...username} reset={null} />
+      </Form.Field>
+      <Form.Field>
+        <label>password </label>
+        <input {...password} reset={null} />
+      </Form.Field>
+      <Button type="submit">login</Button>
+    </Form>
   )
 }
 

@@ -1,19 +1,16 @@
 import blogService from '../services/blogs'
-import { setNotification } from './notificationReducer'
 
 const blogReducer = (state = [], action) => {
   //console.log('blogReducer state: ', state)
   //console.log('blogReducer action', action)
 
   switch (action.type) {
-    case 'LIKE_BLOG': {
+    case 'UPDATE_BLOG': {
       const changedBlog = action.data
       return state.map(b => b.id === changedBlog.id ? changedBlog : b)
     }
-    case 'NEW_BLOG': {
-      const newBlog = action.data
-      return [...state, newBlog]
-    }
+    case 'NEW_BLOG':
+      return [...state, action.data]
     case 'REMOVE_BLOG':
       return state.filter(b => b.id !== action.data)
     case 'INIT_BLOG':
@@ -23,14 +20,14 @@ const blogReducer = (state = [], action) => {
   }
 }
 
-export const createNewBlog = (content) => {
+export const createNewBlog = (blog) => {
+  console.log('create new blog', blog)
   return async dispatch => {
-    const newBlog = await blogService.create(content)
+    const newBlog = await blogService.create(blog)
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog
     })
-    // dispatch(setNotification(`a new blog ${newBlog.title} by ${newBlog.author} added`, 3))
   }
 }
 
@@ -49,11 +46,16 @@ export const addLike = (blog) => {
     ...blog,
     likes: blog.likes + 1
   }
+  // paluuarvona user === user.id, korvataan user === blog.user
   return async dispatch => {
-    const blog = await blogService.replace(changedBlog.id, changedBlog)
+    const responseBlog = await blogService.update(changedBlog.id, changedBlog)
     dispatch({
-      type: 'LIKE_BLOG',
-      data: blog
+      type: 'UPDATE_BLOG',
+      data: {
+        ...responseBlog,
+        user: blog.user,
+        comments: blog.comments
+      }
     })
   }
 }
@@ -68,5 +70,17 @@ export const removeBlog = (id) => {
   }
 }
 
+export const addComment = (blog, objComment) => {
+  return async dispatch => {
+    const response = await blogService.addComment(blog.id, objComment)
+    dispatch({
+      type: 'UPDATE_BLOG',
+      data: {
+        ...blog,
+        comments: [...blog.comments, response]
+      }
+    })
+  }
+}
 
 export default blogReducer

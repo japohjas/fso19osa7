@@ -7,7 +7,8 @@ import blogService from './services/blogs'
 import { setNotification } from './reducers/notificationReducer'  // 7.7.2019
 import { initializeBlog } from './reducers/blogReducer'
 import { setUser } from './reducers/userReducer'
-import Menu from './components/Menu';
+import BlogMenu from './components/Menu'
+import { Container } from 'semantic-ui-react'
 
 
 const App = (props) => {
@@ -28,19 +29,23 @@ const App = (props) => {
 
   if (props.user === null) {
     return (
-      <div>
-        <h2>Log in to application</h2>
-        <Notification />
-        <LoginForm />
-      </div>
+      <Container>
+        <div>
+          <h2>Log in to application</h2>
+          <Notification />
+          <LoginForm />
+        </div>
+      </Container>
     )
   }
 
   return (
-    <div>
-      <Notification />
-      <Menu />
-    </div>
+    <Container>
+      <div>
+        <Notification />
+        <BlogMenu />
+      </div>
+    </Container>
   )
 }
 

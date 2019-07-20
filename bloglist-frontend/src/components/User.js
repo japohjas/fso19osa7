@@ -2,7 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addLike } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
-
+import { Table, Button } from 'semantic-ui-react'
+import CommentForm from './CommentForm';
 
 const User = (props) => {
   console.log('User props', props.blog)
@@ -13,6 +14,8 @@ const User = (props) => {
 
   const blog = props.blog
   console.log('User blog', blog)
+  const comments = blog.comments
+  console.log('User comments', comments)
 
   const handleLikes = (blog) => {
     console.log('like clik')
@@ -26,18 +29,72 @@ const User = (props) => {
     props.removeBlog(blog.id)
   }
 
+  const loginUser = props.user.name === blog.user.name ? true : false
+  const showWhenLoginUser = { display: loginUser ? '' : 'none' }
+
   return (
     <div>
       <h2>blog app</h2>
-      <h2>{blog.title} {blog.author}</h2>
-      <p><a href={blog.url}>{blog.url}</a></p>
-      <div>
-        {blog.likes} likes <button onClick={() => handleLikes(blog)}>like</button>
+      <Table striped celled>
+        <Table.Body>
+          <Table.Row>
+            <Table.Cell>
+              <h2>{blog.title}</h2>
+            </Table.Cell>
+            <Table.Cell>
+              <h2>{blog.author}</h2>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>
+              <a href={blog.url}>{blog.url}</a>
+            </Table.Cell>
+            <Table.Cell>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>
+              {blog.likes} likes
+            </Table.Cell>
+            <Table.Cell>
+              <Button onClick={() => handleLikes(blog)}>like</Button>
+            </Table.Cell>
+          </Table.Row>
+          <Table.Row>
+            <Table.Cell>
+              added by
+            </Table.Cell>
+            <Table.Cell>
+              {blog.user.name}
+            </Table.Cell>
+          </Table.Row>
+        </Table.Body>
+      </Table>
+      <div style={showWhenLoginUser} >
+        <Button onClick={() => handleRemove(blog)}>remove</Button>
       </div>
-      <div> added by {blog.user.name}</div>
-      <div><button onClick={() => handleRemove(blog)}>remove</button></div>
+      <div>
+        <CommentForm blog={blog}/>
+      </div>
+      <div>
+        <h3>Comments</h3>
+        <ul>
+          {comments.map(c =>
+            <li key={c.id} >
+              {c.comment}
+            </li>
+          )}
+        </ul>
+      </div>
     </div>
   )
+}
+
+const mapStateToProps = (state) => {
+  console.log('User state', state)
+  return {
+    user: state.user
+  }
 }
 
 const mapDispatchToProps = {
@@ -46,6 +103,6 @@ const mapDispatchToProps = {
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(User)

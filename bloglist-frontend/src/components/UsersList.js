@@ -6,11 +6,8 @@ import { Link } from 'react-router-dom'
 const UsersList = (props) => {
   const blogs = props.blogs
 
-  console.log('userList blogs', blogs)
-  const filteredBlogs = blogs.filter(b => b.user.id !== undefined)
-  const userIds = filteredBlogs.map(b => b.user.id)
-
-  console.log('userIds', userIds)
+  //console.log('userList blogs', blogs)
+  const userIds = blogs.map(b => b.user.id)
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
   // laskee userId:n mukaan blogien määrän
@@ -25,9 +22,6 @@ const UsersList = (props) => {
     return allIds
   }, {})
 
-  console.log('userId: blogs', counteUserIds)
-
-  // vain uniikit userrId:t
   const unikIds = new Set()
 
   for(var id of userIds ) {
@@ -35,6 +29,7 @@ const UsersList = (props) => {
   }
 
   let arrayIds = [...unikIds]
+  console.log('arrayIds', arrayIds)
 
   const userById = (id) => {
     const blog = blogs.find(b => b.user.id === id)
