@@ -2,11 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-
 const UsersList = (props) => {
   const blogs = props.blogs
 
-  //console.log('userList blogs', blogs)
+  console.log('userList blogs', blogs)
   const userIds = blogs.map(b => b.user.id)
 
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce

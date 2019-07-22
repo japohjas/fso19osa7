@@ -39,7 +39,6 @@ export const loginUser = (name, password) => {
 }
 
 export const setUser = (user) => {
-  //blogService.setToken(user.token)
   return async dispatch => {
     return dispatch({
       type: 'SET_USER',

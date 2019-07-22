@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { addLike } from '../reducers/blogReducer'
 import { removeBlog } from '../reducers/blogReducer'
 import { Table, Button } from 'semantic-ui-react'
-import CommentForm from './CommentForm';
+import CommentForm from './CommentForm'
 
 const User = (props) => {
   console.log('User props', props.blog)

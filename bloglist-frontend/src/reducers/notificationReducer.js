@@ -3,7 +3,6 @@
 const notificationReducer = (state = '', action) => {
   //console.log('notiReducer state: ', state)
   //console.log('notiReducer action', action)
-
   switch (action.type) {
     case 'NOTIFICATION':
       return action.data

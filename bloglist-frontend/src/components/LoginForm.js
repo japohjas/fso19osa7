@@ -1,9 +1,7 @@
 import React from 'react'
-//import PropTypes from 'prop-types'
 import  { useField } from '../hooks/index'
 import { connect } from 'react-redux'
 import { loginUser } from '../reducers/userReducer'
-import { setNotification } from '../reducers/notificationReducer'
 import { Form, Button } from 'semantic-ui-react'
 
 const LoginForm = (props) => {
@@ -33,8 +31,7 @@ const LoginForm = (props) => {
 }
 
 const mapDispatchToProps = {
-  loginUser,
-  setNotification
+  loginUser
 }
 
 export default connect(

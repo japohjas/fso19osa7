@@ -10,9 +10,7 @@ import { setUser } from './reducers/userReducer'
 import BlogMenu from './components/Menu'
 import { Container } from 'semantic-ui-react'
 
-
 const App = (props) => {
-
   useEffect(() => {
     props.initializeBlog()
   }, [])

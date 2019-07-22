@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { createNewBlog } from '../reducers/blogReducer'
 import { Form, Button } from 'semantic-ui-react'
 
-
 const CreateBlog = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -13,12 +12,19 @@ const CreateBlog = (props) => {
     const blog = {
       title: title,
       author: author,
-      url: url
+      url: url,
+      user: {
+        name: props.user.name,
+        id: props.user.token
+      }
     }
     if (!window.confirm(`add blog ${blog.title}?`)) {
       return
     }
     props.createNewBlog(blog)
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
@@ -58,11 +64,18 @@ const CreateBlog = (props) => {
   )
 }
 
+const mapStateToProps = (state) => {
+  // console.log('stateMenu', state.user)
+  return {
+    user: state.user,
+  }
+}
+
 const mapDispatchToProps = {
   createNewBlog,
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(CreateBlog)

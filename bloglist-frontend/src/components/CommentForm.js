@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { addComment } from '../reducers/blogReducer'
 import { Form, Button } from 'semantic-ui-react'
 
-
-
 const CommentForm = (props) => {
   const blog = props.blog
   console.log('comment form', blog)
@@ -13,6 +11,13 @@ const CommentForm = (props) => {
 
   const handleComment = (event) => {
     event.preventDefault()
+    if (comment === '') {
+      return
+    }
+
+    if (!window.confirm(`add comment: ${comment}?`)) {
+      return
+    }
 
     const newComment = {
       comment: comment
@@ -22,7 +27,6 @@ const CommentForm = (props) => {
     props.addComment(blog, newComment)
     setComment('')
   }
-
 
   return (
     <div>
